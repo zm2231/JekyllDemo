@@ -15,11 +15,11 @@ Each iteration has increasing “intelligence”, which allows it to make better
 If you’d like to see the full code, you can view it here: https://www.github.com/zm2231/ChessNeuralNet
 The file which contains the code for calculating moves it located here: https://www.github.com/zm2231/ChessNeuralNet/blob/master/public/js/movecalc.js
 
-<h2>Quick Explanation of programs used</h2>
+<h2>Quick Explanation of Programs Used</h2>
 I set out yesterday to investigate various implementations and variations on minimax. The term minimax comes from the game theory idea of attempting to MINImize your MAXimum loss (maximin is a separate but alternative way to think about this concept, which seeks to MAXimize your MINimum gain). Thus, when playing tic tac toe a player using a minimax algorithm will choose the best possible move by assigning a value to each move based on all of the possible outcomes from every subsequent move, and choosing the move that either provides the most opportunities to win, or the least opportunities for the opponent to win.
 
 Negamax is a slight simplification of minimax, and its code implementation is based on the principle that an opponent who is using a perfect strategy will be looking to make the inverse of a minimax move, thus their move will be the NEGAtive of your MAXimum move. Alpha-beta pruning is a variant of minimax that runs slightly more efficiently because instead of evaluating every single POSSIBLE move, it stops evaluating all subsequent moves after it has been found that a move is worse than a previous move. This will all make sense later.
- 
+
 <h2>Setup</h2>
 
 The goal of this project is to build the chess AI, but I still needed to make a board, visuals and make sure the program knows the rules of chess. So, I created two different programs files that help with this. I have done something similar to this before, so I used the same chess.js that I made for a friend a while ago.
