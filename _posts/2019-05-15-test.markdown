@@ -28,8 +28,7 @@ I also created 3 JavaScript files which handle different aspects of the chess AI
 Now, let’s discuss the move calculation functions. I’ll discuss each iteration that I built.
 
 <h2>Iteration 1: Random Moves </h2>
-<script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/5jDSBF6"><a href="//imgur.com/a/5jDSBF6"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 Making random moves
 This first iteration really sucked but was quick to implement.
 The AI simply finds all possible moves it can make this turn, and randomly picks one to make.
