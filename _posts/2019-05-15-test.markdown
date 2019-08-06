@@ -12,9 +12,11 @@ When playing, I would recommend opening your browser’s console so you can see 
 Want To See How It’s Built?
 In the rest of this article, I’ll walk you through the ideas behind the different iterations of the chess AI, and how I implemented them, so you can build your own. Where applicable, I’ve provided links to resources that helped me understand some of the theories behind the ideas I implemented.
 Each iteration has increasing “intelligence”, which allows it to make better moves. I’ve included all iterations as functions within my code.
-If you’d like to see the full code, you can view it here: https://github.com/zm2231/ChessNeuralNet
-The file which contains the code for calculating moves it located here: https://github.com/zm2231/ChessNeuralNet/blob/master/public/js/movecalc.js
-Setup
+If you’d like to see the full code, you can view it here: https://www.github.com/zm2231/ChessNeuralNet
+The file which contains the code for calculating moves it located here: https://www.github.com/zm2231/ChessNeuralNet/blob/master/public/js/movecalc.js
+
+<h2>Setup</h2>
+
 The goal of this project is to build the chess AI, but I still needed to make a board, visuals and make sure the program knows the rules of chess. So, I created two different programs files that help with this. I have done something similar to this before, so I used the same chess.js that I made for a friend a while ago.
 chessboard.js handles creating the visuals (the chess board and pieces), as well as the interface for when a user makes a move (dragging pieces to a square).
 chess.js is a library which is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection – basically everything but the AI.
