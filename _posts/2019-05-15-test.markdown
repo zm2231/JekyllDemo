@@ -6,7 +6,7 @@ categories: Coding
 ---
 Chess Neural Net
 
-<h1>Building a Simple Chess AI</h2>
+<h1>Building a Simple Chess AI</h1>
 
 I’ve been wanting to build a chess AI for a few years now. I was excited by the idea of building a program that could make decisions, and maybe in the future, learn from those decisions. I was finally able to build my own chess AI.
 You can play it here: https://young-tundra-29308.herokuapp.com
