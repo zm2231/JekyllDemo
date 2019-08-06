@@ -35,6 +35,7 @@ The AI simply finds all possible moves it can make this turn, and randomly picks
 It also includes the code for integrating chess.js and chessboard.js, so it is a great starting point.
 
 <h2> Iteration 2: Choose Best Move, Looking One Move Ahead </h2>
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/yHUZLRQ"><a href="//imgur.com/a/yHUZLRQ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 Looking one move ahead
 This next iteration starts adding some decision making to the chess AI.
@@ -76,6 +77,7 @@ Minimax
 I’ll provide a short overview of Minimax here, but I highly recommend the Wikipedia article on it: https://en.wikipedia.org/wiki/Minimax. You’ll even find a pseudocode example there.
 Minimax is an algorithm we can use to evaluate all possible moves a player can make. We follow each move to a certain depth, which in this instance is how many moves ahead we want to look. Our evaluation will be relative to a player, and that player will be trying to get the best score possible (maximize their position). The opponent be doing the opposite: trying to minimize the original player’s value (which is, in essence, maximizing the opponent’s own value).
 To further understand this concept, it helps to create a tree. In this instance, we are starting with the maximizing player, and looking 2 moves ahead:
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/62yrTSO"><a href="//imgur.com/a/62yrTSO"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
  
 Each square is a node when the maximizing player chooses a move, and a circle is a node when the minimizing player chooses a move.
 We can follow the tree and see the outcomes for each possible move lead to these positions: 100, -100, 0, and 10.
@@ -104,6 +106,7 @@ What Is Alpha Beta Pruning?
 When I was researching alpha beta pruning, I found these notes to be the best resource possible: http://web.cs.ucla.edu/~rosen/161/notes/alphabeta.html
 I highly recommend looking through these notes for a great example that walk through how it works.
 But on a very high level, the idea is that we can eliminate branches when searching through the tree of moves, which makes our evaluating much faster. Take this tree as an example:
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/jvOe1p1"><a href="//imgur.com/a/jvOe1p1"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
  
 We start on the first branch, and come up with a 3, so that trickles up.
 We then go down the second branch, and the first move the min player comes across is a 2.
