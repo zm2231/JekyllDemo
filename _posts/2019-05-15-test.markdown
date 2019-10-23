@@ -138,3 +138,4 @@ One way I’ve considered to improve speed is to organize the possible moves. Ri
 Another issue is the position evaluation function. Currently, it is based on how many pieces are remaining on the board. But it does not take the piece position into consideration. 
 Going forward, there are other algorithms I’d like to try to solve these issues, as well as attempt to incorporate some form of machine learning.
 
+<script async src="//jsfiddle.net/zainmer/f0qdxu1y/3/embed/js,html,css,result/dark/"></script>
