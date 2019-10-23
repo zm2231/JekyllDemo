@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Chess AI Game "
-date:   2019-23-10 11:46:35 -0400
+date:   2019-5-10 11:46:35 -0400
 categories: Coding
 ---
 
