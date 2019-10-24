@@ -7,26 +7,25 @@ categories: Coding
 
 <h1>Building a Simple Chess AI</h1>
 
-I’ve been wanting to build a chess AI for a few years now. I was excited by the idea of building a program that could make decisions, and maybe in the future, learn from those decisions. I was finally able to build my own chess AI.
+I’ve been wanting to build a chess AI for a few years now. I was excited by the idea of building a program that could its own decisions and learn from those decisions. I was finally able to build my own chess AI.
 You can play it here: https://zm2231.github.io/coding/2019/05/10/game.html or by going to the home screen and navigating to the page called Chess AI Game
-When playing, I would recommend opening your browser’s console so you can see the output as the computer thinks through each move (it looks really cool).
+
 Want To See How It’s Built?
-In the rest of this article, I’ll walk you through the ideas behind the different iterations of the chess AI, and how I implemented them, so you can build your own. Where applicable, I’ve provided links to resources that helped me understand some of the theories behind the ideas I implemented.
-Each iteration has increasing “intelligence”, which allows it to make better moves. I’ve included all iterations as functions within my code.
+In the rest of this article, I’ll walk you through the different skill levels of the program, and how I implemented them, so you can make your own AI. I have included links where you can understand some of the theories/programs I discuss in here. 
+Each iteration has increasing “intelligence”, which allows it to make better moves which is due to the different methods and how many moves ahead the program is thinking.. I’ve included all iterations as functions within my code.
 If you’d like to see the full code, you can view it here: https://www.github.com/zm2231/ChessNeuralNet
 The file which contains the code for calculating moves it located here: https://www.github.com/zm2231/ChessNeuralNet/blob/master/public/js/movecalc.js
 
 <h2>Quick Explanation of Programs Used</h2>
-I set out yesterday to investigate various implementations and variations on minimax. The term minimax comes from the game theory idea of attempting to MINImize your MAXimum loss (maximin is a separate but alternative way to think about this concept, which seeks to MAXimize your MINimum gain). Thus, when playing tic tac toe a player using a minimax algorithm will choose the best possible move by assigning a value to each move based on all of the possible outcomes from every subsequent move, and choosing the move that either provides the most opportunities to win, or the least opportunities for the opponent to win.
+The main program used here is Minimax. The word derives from the game theory of minimizing your loses and maximizes your wins. To explain this in a game, such as tic tac toe, the minimax algorithm will choose the best move through weights and the algorithm along with evaluating all possible outcomes for each move. It then choses the move that has the most opportunities to win.
 
 Negamax is a slight simplification of minimax, and its code implementation is based on the principle that an opponent who is using a perfect strategy will be looking to make the inverse of a minimax move, thus their move will be the NEGAtive of your MAXimum move. Alpha-beta pruning is a variant of minimax that runs slightly more efficiently because instead of evaluating every single POSSIBLE move, it stops evaluating all subsequent moves after it has been found that a move is worse than a previous move. This will all make sense later.
 
 <h2>Setup</h2>
 
-The goal of this project is to build the chess AI, but I still needed to make a board, visuals and make sure the program knows the rules of chess. So, I created two different programs files that help with this. I have done something similar to this before, so I used the same chess.js that I made for a friend a while ago.
+The goal of this project is to build the chess AI, but I still needed to make a board, visuals and make sure the program knows the rules of chess. So, I created two different programs files that help with this. I have done something like this before, so I used the same chess.js that I made for a friend a while ago.
 chessboard.js handles creating the visuals (the chess board and pieces), as well as the interface for when a user makes a move (dragging pieces to a square).
-chess.js is a library which is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection – basically everything but the AI.
-For server-side code, it is just Node.js and Express. I’m not overly familiar with Node and Express at this time, so I tried to keep it as simple as possible. In the future, once I get more familiar, I’ll improve this.
+chess.js is a library which is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection – basically all of the rules of chess.
 I also created 3 JavaScript files which handle different aspects of the chess AI:
 1.	boardconfig.js – sets configuration for chessboard.js, and creates an instance of the board and chess game
 2.	movecalc.js – contains the functions which calculate the move to make
@@ -36,81 +35,75 @@ Now, let’s discuss the move calculation functions. I’ll discuss each iterati
 <h2>Iteration 1: Random Moves </h2>
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/5jDSBF6"><a href="//imgur.com/a/5jDSBF6"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 Making random moves
-This first iteration really sucked but was quick to implement.
-The AI simply finds all possible moves it can make this turn, and randomly picks one to make.
-It also includes the code for integrating chess.js and chessboard.js, so it is a great starting point.
+This first iteration has no real experience in playing chess, but it was quick to make. The AI simply finds all possible moves and randomly picks one. The main point of this iteration was to check to see if my board configuration file and rules in chess.js file works.
 
 <h2> Iteration 2: Choose Best Move, Looking One Move Ahead </h2>
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/yHUZLRQ"><a href="//imgur.com/a/yHUZLRQ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 Looking one move ahead
 This next iteration starts adding some decision making to the chess AI.
-It looks at all possible moves it can make this turn and evaluates it’s position after each move. It then picks the move which leads to the best position.
-To implement this iteration, we need 2 functions:
-1.	One function to evaluate the position
-2.	Another to evaluate the outcome of each possible move
+It looks at all possible moves it can make this turn and evaluates it’s position after each move and then makes the best move it can see.
+To implement this iteration, two functions are required:
+1.	A function that evaluated the position
+2.	Function to evaluate the outcome of each possible move
 Position Evaluation Function
-In chess, you can ‘score’ a current position to see which player is ahead. This will then allow the AI to basically say, “Move A leads to a position of -100, but move B leads to a position of 50. So, I’ll choose move B.”
+In chess, you can evaluate a current position to see which player is ahead. This will then allow the AI to basically say, “Move A leads to a position of -25, but move B leads to a position of 75. So, I’ll choose move B because I get more points. ” This is through weights that each piece is assigned.
 There are many ways to calculate this, but for this chess AI, we’ll use a relatively simple function to figure this out:
-Relative to the player for whom we want to evaluate the position, any of their own pieces will add to their score, and their opponent’s pieces will subtract.
+So, having pieces will add to your score but the opponents score will subtract from the score. 
 So, the return value will be the player’s position relative to its opponents.
-What about the value for each piece? There are many different ways you can assign these values (https://en.wikipedia.org/wiki/Chess_piece_relative_value), but I decided to go with Larry Kaufman’s suggested values for the middle game, multiplied by 100, so there are no floating numbers to deal with:
+What about the value for each piece? There are several you can assign these values (https://en.wikipedia.org/wiki/Chess_piece_relative_value), but I decided to go with Larry Kaufman’s suggested values for the middle game, multiplied by 100, so there are no floating numbers to deal with:
 •	pawn = 100
 •	knight = 350
 •	bishop = 350
 •	rook = 525
 •	q = 1000
 •	king = 10000
-The function, shown below, takes the 2D array that is returned by chess.js’s function chess.board(). It loops through each piece and either adds the piece if its color matches with the player color passed to the function or subtracts it.
+The function, shown below, takes the array that is returned by chess.js’s function chess.board(). The function then goes through each piece and adds the piece if its color matches with your color or subtracts from the.
 <script src="https://gist.github.com/zm2231/ad8fa565752aa6157ac44456dfba9eee.js"></script>
-This board evaluation function will be used in the rest of the iterations. As mentioned, it does have limitations. For instance, it does not take a piece’s position into account when scoring it (example: a bishop in the middle of the board is better than one in a corner).
-Improving this evaluation function will also improve each iteration.
-But for now, it is a good starting point.
+However, this board evaluation still has multiple flaws. For example, it evaluates an activated bishop the same as it evaluates a bishop in the starting position. For now, though, it should do the trick.
+
 Evaluate All Possible Moves
-This function uses the position evaluation function to evaluate the position after every possible move.
-We’ll build upon the random move function from the previous iteration.
-Instead of randomly choosing the move from the list of possible moves, our program will make every move and evaluate the position. After it makes each move, it will undo the move. All the while, the function is tracking which move leads to the best position.
+This function works by taking the position evaluation to see every possible move.
+I’ll build upon the random move function from the previous iteration.
+Instead of randomly choosing the move from the list of possible moves, the program will, in its head, go through every move and evaluate the position while evaluating the score. At the end, the function, which has been tracking the best possible move, will make that move. 
 <script src="https://gist.github.com/zm2231/cf437d0dad0ec2c493985212bd789c98.js"></script>
-You’ll notice that I randomized the order of the possible moves. Without this randomization, if all moves lead to an equal outcome, it will choose the first move in the list (which is the first piece that can move in the upper left corner). This leads to the knight moving, then the rook moving back and forth until a piece comes close enough to capture.
+You’ll notice that I randomized the order of the possible moves. Without randomization the AI will choose the first move in the list. This leads to the knight moving, then the rook moving back and forth until a piece comes close enough to capture or the game is drawn by the opponent. 
 
 <h2>Iteration 3: Looking Multiple Moves Ahead</h2>
 
-While the last iteration now encourages the computer to capture pieces (it will pick moves that increase its relative position), it is still lacking. Because the chess AI is only looking one move ahead, it isn’t able to predict what its opponent will do after its move. So it isn’t able to determine if it should move a piece about to be captured, and will actually move a piece into a position to get captured.
+While the last iteration now forces the computer to capture pieces, it is still not up to par. Because the chess AI is only looking one move ahead, it can’t see ahead that far on what their opponent is planning. So, when it moves a piece, it can’t tell if that piece might be taken seconds later.
 So, in this third iteration, we’ll give the AI the ability to look more than one move ahead.
 To implement this, we’ll use an algorithm called Minimax.
 I’ll explain what Minimax is, and then show my implementation.
 Minimax
-I’ll provide a short overview of Minimax here, but I highly recommend the Wikipedia article on it: https://en.wikipedia.org/wiki/Minimax. You’ll even find a pseudocode example there.
-Minimax is an algorithm we can use to evaluate all possible moves a player can make. We follow each move to a certain depth, which in this instance is how many moves ahead we want to look. Our evaluation will be relative to a player, and that player will be trying to get the best score possible (maximize their position). The opponent be doing the opposite: trying to minimize the original player’s value (which is, in essence, maximizing the opponent’s own value).
+Here is a quick Wikipedia of what minimax is: https://en.wikipedia.org/wiki/Minimax. You’ll even find a pseudocode example there.
+Basically, minimax is an algorithm that evaluates all possible moves and follows that move to see what your opponent will do. However, you can make it so the program evaluates however many moves ahead you want to. 
 To further understand this concept, it helps to create a tree. In this instance, we are starting with the maximizing player, and looking 2 moves ahead:
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/62yrTSO"><a href="//imgur.com/a/62yrTSO"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
  
 Each square is a node when the maximizing player chooses a move, and a circle is a node when the minimizing player chooses a move.
 We can follow the tree and see the outcomes for each possible move lead to these positions: 100, -100, 0, and 10.
-Naturally, the maximizing player will want to reach an outcome of 100. But if the maximizing player chooses that route, the minimizing player will make a move that leads to -100 (hence why -100 trickles up).
-Instead, if the maximizing player goes with the other move, the minimizing player will choose 0.
-So the maximizing player will need to go with the move that leads to 0 since it leads to the greatest possible outcome.
+The player will, naturally, try to achieve an outcome of 100 which will get the opponent a negative -100. So, if the player plays a move that is 0 points, the opponent has to play a move that leads to 0 to effectively counter the opponents move.
 
 <h2>Implementing Minimax</h2>
 
-Just as we did with the iteration looking one move ahead, we’ll still loop through all possible moves, but the value of each move will not be the current board position, but the final board position as we trickle down the tree.
+Just as we did with the iteration looking one move ahead, we’ll still loop through all possible moves, but the value will be the final board position. 
 For this, we’ll need to use recursion.
 Each recursive call, we decrease our depth by 1, until we get to a depth of 0, at which point we evaluate the position.
 These values trickle up and allows the AI to pick a move that leads to the best position.
 <script src="https://gist.github.com/zm2231/8c8565b05f26fe6b4e972c125ff1b7db.js"></script>
-One thing to remember: we are evaluating from the viewpoint of one player. So when we enter a recursive call and are evaluating from the viewpoint of the opponent, the opponent is choosing a move that leads to the MINIMUM value.
+One thing to remember: we are evaluating from the viewpoint of one player. So, when we enter a recursive call and are evaluating as the opponent. The opponent is choosing a move that leads to the MINIMUM value.
 Hence the if/else statement.
 
 <h2>Iteration 4: Minimax with Alpha Beta Pruning</h2>
 
-At this point, the chess AI is starting to make good moves. It will protect valuable pieces from being captured, and if it looks far enough ahead, it can start to formulate a strategy.
-The only problem is the algorithm takes a long time.
+At this point, the AI can make relatively good moves, protect its own pieces, and look far ahead to make a strategy. 
+The only problem is the algorithm takes a very long time.
 That’s because of the number of branches it needs to evaluate.
-Luckily, there is a way to remove branches that aren’t worth evaluating.
-For this, we’ll use alpha beta pruning.
+In order to remove the time it takes to go through possibilities, I’ll use alpha beta pruning. 
 What Is Alpha Beta Pruning?
 When I was researching alpha beta pruning, I found these notes to be the best resource possible: http://web.cs.ucla.edu/~rosen/161/notes/alphabeta.html
-I highly recommend looking through these notes for a great example that walk through how it works.
+If you want to see how alpha beta pruning works, there are some great notes at the link above. 
 But on a very high level, the idea is that we can eliminate branches when searching through the tree of moves, which makes our evaluating much faster. Take this tree as an example:
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/jvOe1p1"><a href="//imgur.com/a/jvOe1p1"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
  
