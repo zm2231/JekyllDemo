@@ -22,7 +22,7 @@ github_username:  zm2231
 
 # Build settings
 markdown: kramdown
-theme: minima
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 
