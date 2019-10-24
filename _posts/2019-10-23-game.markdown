@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Chess AI Game "
-date:   2019-5-10 11:46:35 -0400
-categories: Coding
+date:   2019-10-23 11:46:35 -0400
+categories: Game
 ---
 
 <h1>My Game</h1>
