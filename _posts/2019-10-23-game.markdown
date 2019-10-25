@@ -9,7 +9,7 @@ categories: Coding
 
 
 
-<iframe height="612" style="width: 100%;" scrolling="no" title="Chess AI" src="https://codepen.io/zainmer/embed/jOOBjvv?height=612&theme-id=0&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+<iframe height="612" style="width: 100%;" scrolling="no" title="Chess AI" src="https://codepen.io/zainmer/embed/jOOBjvv?height=612&theme-id=0&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/zainmer/pen/jOOBjvv'>Chess AI</a> by Zain Merchant
   (<a href='https://codepen.io/zainmer'>@zainmer</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
